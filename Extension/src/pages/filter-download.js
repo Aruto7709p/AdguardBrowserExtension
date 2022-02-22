@@ -18,7 +18,7 @@
 import Nanobar from 'nanobar';
 
 import { contentPage } from '../content-script/content-script';
-import { MESSAGE_TYPES } from '../common/constants';
+import { MessageType } from '../common/constants';
 
 import '../common/i18n'; // !!! DO NOT REMOVE, THIS MODULE HANDLES TRANSLATIONS
 
@@ -34,14 +34,14 @@ export const init = () => {
             nanobar.go(100);
             setTimeout(() => {
                 if (window) {
-                    contentPage.sendMessage({ type: MESSAGE_TYPES.OPEN_THANKYOU_PAGE });
+                    contentPage.sendMessage({ type: MessageType.OPEN_THANKYOU_PAGE });
                 }
             }, 1000);
         }
 
         async function checkRequestFilterReady() {
             const response = await contentPage.sendMessage({
-                type: MESSAGE_TYPES.CHECK_REQUEST_FILTER_READY,
+                type: MessageType.CHECK_REQUEST_FILTER_READY,
             });
             if (response.ready) {
                 onLoaded();

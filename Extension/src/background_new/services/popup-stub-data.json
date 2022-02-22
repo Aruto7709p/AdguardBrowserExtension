@@ -1,0 +1,367 @@
+{
+  "frameInfo": {
+    "url": "https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/tabs/update",
+    "applicationAvailable": true,
+    "domainName": "developer.mozilla.org",
+    "applicationFilteringDisabled": null,
+    "urlFilteringDisabled": false,
+    "documentAllowlisted": null,
+    "userAllowlisted": false,
+    "canAddRemoveRule": true,
+    "adguardProductName": "",
+    "totalBlockedTab": 0,
+    "totalBlocked": 0
+  },
+  "stats": {
+    "today": [
+      {
+        "total": 0
+      },
+      {
+        "total": 0
+      },
+      {
+        "total": 0
+      },
+      {
+        "total": 0
+      },
+      {
+        "total": 0
+      },
+      {
+        "total": 0
+      },
+      {
+        "total": 0
+      },
+      {
+        "total": 0
+      },
+      {
+        "total": 0
+      },
+      {
+        "total": 0
+      },
+      {
+        "total": 0
+      },
+      {
+        "total": 0
+      },
+      {
+        "total": 0
+      },
+      {
+        "total": 0
+      },
+      {
+        "total": 0
+      },
+      {
+        "total": 0
+      },
+      {
+        "total": 0
+      },
+      {
+        "total": 0
+      },
+      {
+        "total": 0
+      },
+      {
+        "total": 0
+      },
+      {
+        "total": 0
+      },
+      {
+        "total": 0
+      },
+      {
+        "total": 0
+      },
+      {
+        "total": 0
+      }
+    ],
+    "lastWeek": [
+      {
+        "total": 0
+      },
+      {
+        "total": 0
+      },
+      {
+        "total": 0
+      },
+      {
+        "total": 0
+      },
+      {
+        "total": 0
+      },
+      {
+        "total": 0
+      },
+      {
+        "total": 0
+      }
+    ],
+    "lastMonth": [
+      {
+        "total": 0
+      },
+      {
+        "total": 0
+      },
+      {
+        "total": 0
+      },
+      {
+        "total": 0
+      },
+      {
+        "total": 0
+      },
+      {
+        "total": 0
+      },
+      {
+        "total": 0
+      },
+      {
+        "total": 0
+      },
+      {
+        "total": 0
+      },
+      {
+        "total": 0
+      },
+      {
+        "total": 0
+      },
+      {
+        "total": 0
+      },
+      {
+        "total": 0
+      },
+      {
+        "total": 0
+      },
+      {
+        "total": 0
+      },
+      {
+        "total": 0
+      },
+      {
+        "total": 0
+      },
+      {
+        "total": 0
+      },
+      {
+        "total": 0
+      },
+      {
+        "total": 0
+      },
+      {
+        "total": 0
+      },
+      {
+        "total": 0
+      },
+      {
+        "total": 0
+      },
+      {
+        "total": 0
+      },
+      {
+        "total": 0
+      },
+      {
+        "total": 0
+      },
+      {
+        "total": 0
+      },
+      {
+        "total": 0
+      },
+      {
+        "total": 0
+      },
+      {
+        "total": 0
+      }
+    ],
+    "lastYear": [
+      {
+        "total": 0
+      },
+      {
+        "total": 0
+      },
+      {
+        "total": 0
+      }
+    ],
+    "overall": [
+      {
+        "total": 0
+      },
+      {
+        "total": 0
+      },
+      {
+        "total": 0
+      }
+    ],
+    "blockedGroups": [
+      {
+        "groupId": "total",
+        "groupName": "Total"
+      },
+      {
+        "groupId": 1,
+        "groupName": "Ad Blocking",
+        "displayNumber": 1
+      },
+      {
+        "groupId": 2,
+        "groupName": "Privacy",
+        "displayNumber": 2
+      },
+      {
+        "groupId": 3,
+        "groupName": "Social Widgets",
+        "displayNumber": 3
+      },
+      {
+        "groupId": 4,
+        "groupName": "Annoyances",
+        "displayNumber": 4
+      },
+      {
+        "groupId": 5,
+        "groupName": "Security",
+        "displayNumber": 5
+      },
+      {
+        "groupId": 6,
+        "groupName": "Other",
+        "displayNumber": 6
+      },
+      {
+        "groupId": 7,
+        "groupName": "Language-specific",
+        "displayNumber": 7
+      },
+      {
+        "groupId": 0,
+        "groupName": "Custom",
+        "displayNumber": 99
+      }
+    ]
+  },
+  "options": {
+    "showStatsSupported": true,
+    "isFirefoxBrowser": false,
+    "showInfoAboutFullVersion": true,
+    "isMacOs": true,
+    "isEdgeBrowser": false,
+    "notification": null,
+    "isDisableShowAdguardPromoInfo": false,
+    "hasCustomRulesToReset": false
+  },
+  "settings": {
+    "names": {
+      "DISABLE_DETECT_FILTERS": "detect-filters-disabled",
+      "DISABLE_SHOW_PAGE_STATS": "disable-show-page-statistic",
+      "DISABLE_SHOW_ADGUARD_PROMO_INFO": "show-info-about-adguard-disabled",
+      "DISABLE_SAFEBROWSING": "safebrowsing-disabled",
+      "DISABLE_FILTERING": "adguard-disabled",
+      "DISABLE_COLLECT_HITS": "hits-count-disabled",
+      "DISABLE_SHOW_CONTEXT_MENU": "context-menu-disabled",
+      "USE_OPTIMIZED_FILTERS": "use-optimized-filters",
+      "DEFAULT_ALLOWLIST_MODE": "default-whitelist-mode",
+      "ALLOWLIST_ENABLED": "allowlist-enabled",
+      "DISABLE_SHOW_APP_UPDATED_NOTIFICATION": "show-app-updated-disabled",
+      "FILTERS_UPDATE_PERIOD": "filters-update-period",
+      "APPEARANCE_THEME": "appearance-theme",
+      "USER_FILTER_ENABLED": "user-filter-enabled",
+      "DISABLE_STEALTH_MODE": "stealth_disable_stealth_mode",
+      "HIDE_REFERRER": "stealth-hide-referrer",
+      "HIDE_SEARCH_QUERIES": "stealth-hide-search-queries",
+      "SEND_DO_NOT_TRACK": "stealth-send-do-not-track",
+      "BLOCK_CHROME_CLIENT_DATA": "stealth-remove-x-client",
+      "BLOCK_WEBRTC": "stealth-block-webrtc",
+      "SELF_DESTRUCT_THIRD_PARTY_COOKIES": "stealth-block-third-party-cookies",
+      "SELF_DESTRUCT_THIRD_PARTY_COOKIES_TIME": "stealth-block-third-party-cookies-time",
+      "SELF_DESTRUCT_FIRST_PARTY_COOKIES": "stealth-block-first-party-cookies",
+      "SELF_DESTRUCT_FIRST_PARTY_COOKIES_TIME": "stealth-block-first-party-cookies-time",
+      "HIDE_RATE_BLOCK": "hide-rate-block",
+      "USER_RULES_EDITOR_WRAP": "user-rules-editor-wrap"
+    },
+    "values": {
+      "detect-filters-disabled": false,
+      "disable-show-page-statistic": null,
+      "show-info-about-adguard-disabled": false,
+      "safebrowsing-disabled": true,
+      "adguard-disabled": null,
+      "hits-count-disabled": true,
+      "context-menu-disabled": null,
+      "use-optimized-filters": false,
+      "default-whitelist-mode": true,
+      "allowlist-enabled": true,
+      "show-app-updated-disabled": false,
+      "filters-update-period": -1,
+      "appearance-theme": "system",
+      "user-filter-enabled": true,
+      "stealth_disable_stealth_mode": true,
+      "stealth-hide-referrer": true,
+      "stealth-hide-search-queries": true,
+      "stealth-send-do-not-track": true,
+      "stealth-remove-x-client": true,
+      "stealth-block-webrtc": false,
+      "stealth-block-third-party-cookies": true,
+      "stealth-block-third-party-cookies-time": 2880,
+      "stealth-block-first-party-cookies": false,
+      "stealth-block-first-party-cookies-time": 4320,
+      "hide-rate-block": false,
+      "user-rules-editor-wrap": false
+    },
+    "defaultValues": {
+      "detect-filters-disabled": false,
+      "show-info-about-adguard-disabled": false,
+      "safebrowsing-disabled": true,
+      "hits-count-disabled": true,
+      "use-optimized-filters": false,
+      "default-whitelist-mode": true,
+      "allowlist-enabled": true,
+      "show-app-updated-disabled": false,
+      "filters-update-period": -1,
+      "appearance-theme": "system",
+      "user-filter-enabled": true,
+      "stealth_disable_stealth_mode": true,
+      "stealth-hide-referrer": true,
+      "stealth-hide-search-queries": true,
+      "stealth-send-do-not-track": true,
+      "stealth-remove-x-client": true,
+      "stealth-block-webrtc": false,
+      "stealth-block-third-party-cookies": true,
+      "stealth-block-third-party-cookies-time": 2880,
+      "stealth-block-first-party-cookies": false,
+      "stealth-block-first-party-cookies-time": 4320,
+      "hide-rate-block": false,
+      "user-rules-editor-wrap": false
+    }
+  }
+}

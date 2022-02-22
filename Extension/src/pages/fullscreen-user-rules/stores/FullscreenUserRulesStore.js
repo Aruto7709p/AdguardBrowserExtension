@@ -7,7 +7,7 @@ import {
     runInAction,
 } from 'mobx';
 import { messenger } from '../../services/messenger';
-import { MESSAGE_TYPES } from '../../../common/constants';
+import { MessageType } from '../../../common/constants';
 
 class FullscreenUserRulesStore {
     @observable settings = null;
@@ -18,7 +18,7 @@ class FullscreenUserRulesStore {
 
     @action
     async getFullscreenUserRulesData() {
-        const { settings } = await messenger.sendMessage(MESSAGE_TYPES.GET_USER_RULES_EDITOR_DATA);
+        const { settings } = await messenger.sendMessage(MessageType.GET_USER_RULES_EDITOR_DATA);
         runInAction(() => {
             this.settings = settings;
         });

@@ -17,7 +17,7 @@
 import { format } from 'date-fns';
 
 import { runtimeImpl } from '../../../common/common-script';
-import { MESSAGE_TYPES } from '../../../common/constants';
+import { MessageType } from '../../../common/constants';
 
 /**
  * Export types.
@@ -33,17 +33,17 @@ export const ExportTypes = {
 const exportMetadata = {
     [ExportTypes.USER_FILTER]: {
         name: 'user_rules',
-        messageType: MESSAGE_TYPES.GET_USER_RULES,
+        messageType: MessageType.GET_USER_RULES,
         ext: 'txt',
     },
     [ExportTypes.ALLOW_LIST]: {
         name: 'allowlist',
-        messageType: MESSAGE_TYPES.GET_ALLOWLIST_DOMAINS,
+        messageType: MessageType.GET_ALLOWLIST_DOMAINS,
         ext: 'txt',
     },
     [ExportTypes.SETTINGS]: {
         name: 'settings',
-        messageType: MESSAGE_TYPES.LOAD_SETTINGS_JSON,
+        messageType: MessageType.LOAD_SETTINGS_JSON,
         ext: 'json',
     },
 };

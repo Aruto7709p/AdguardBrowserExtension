@@ -16,7 +16,7 @@
  */
 
 import { contentPage } from '../content-script/content-script';
-import { MESSAGE_TYPES } from '../common/constants';
+import { MessageType } from '../common/constants';
 
 const PageController = (response) => {
     const {
@@ -34,7 +34,7 @@ const PageController = (response) => {
     const safebrowsingEnabledChange = (e) => {
         const checkbox = e.currentTarget;
         contentPage.sendMessage({
-            type: MESSAGE_TYPES.CHANGE_USER_SETTING,
+            type: MessageType.CHANGE_USER_SETTING,
             key: userSettings.names.DISABLE_SAFEBROWSING,
             value: !checkbox.checked,
         });
@@ -44,14 +44,14 @@ const PageController = (response) => {
         const checkbox = e.currentTarget;
         if (checkbox.checked) {
             contentPage.sendMessage({
-                type: MESSAGE_TYPES.ADD_AND_ENABLE_FILTER,
+                type: MessageType.ADD_AND_ENABLE_FILTER,
                 data: {
                     filterId: AntiBannerFiltersId.TRACKING_FILTER_ID,
                 },
             });
         } else {
             contentPage.sendMessage({
-                type: MESSAGE_TYPES.DISABLE_ANTIBANNER_FILTER,
+                type: MessageType.DISABLE_ANTIBANNER_FILTER,
                 data: {
                     filterId: AntiBannerFiltersId.TRACKING_FILTER_ID,
                     remove: true,
@@ -64,14 +64,14 @@ const PageController = (response) => {
         const checkbox = e.currentTarget;
         if (checkbox.checked) {
             contentPage.sendMessage({
-                type: MESSAGE_TYPES.ADD_AND_ENABLE_FILTER,
+                type: MessageType.ADD_AND_ENABLE_FILTER,
                 data: {
                     filterId: AntiBannerFiltersId.SOCIAL_FILTER_ID,
                 },
             });
         } else {
             contentPage.sendMessage({
-                type: MESSAGE_TYPES.DISABLE_ANTIBANNER_FILTER,
+                type: MessageType.DISABLE_ANTIBANNER_FILTER,
                 data: {
                     filterId: AntiBannerFiltersId.SOCIAL_FILTER_ID,
                     remove: true,
@@ -83,7 +83,7 @@ const PageController = (response) => {
     const sendStatsCheckboxChange = (e) => {
         const checkbox = e.currentTarget;
         contentPage.sendMessage({
-            type: MESSAGE_TYPES.CHANGE_USER_SETTING,
+            type: MessageType.CHANGE_USER_SETTING,
             key: userSettings.names.DISABLE_COLLECT_HITS,
             value: !checkbox.checked,
         });
@@ -93,14 +93,14 @@ const PageController = (response) => {
         const checkbox = e.currentTarget;
         if (checkbox.checked) {
             contentPage.sendMessage({
-                type: MESSAGE_TYPES.ADD_AND_ENABLE_FILTER,
+                type: MessageType.ADD_AND_ENABLE_FILTER,
                 data: {
                     filterId: AntiBannerFiltersId.SEARCH_AND_SELF_PROMO_FILTER_ID,
                 },
             });
         } else {
             contentPage.sendMessage({
-                type: MESSAGE_TYPES.DISABLE_ANTIBANNER_FILTER,
+                type: MessageType.DISABLE_ANTIBANNER_FILTER,
                 data: {
                     filterId: AntiBannerFiltersId.SEARCH_AND_SELF_PROMO_FILTER_ID,
                     remove: true,
@@ -130,7 +130,7 @@ const PageController = (response) => {
         openExtensionStoreBtns.forEach((openExtensionStoreBtn) => {
             openExtensionStoreBtn.addEventListener('click', (e) => {
                 e.preventDefault();
-                contentPage.sendMessage({ type: MESSAGE_TYPES.OPEN_EXTENSION_STORE });
+                contentPage.sendMessage({ type: MessageType.OPEN_EXTENSION_STORE });
             });
         });
 
@@ -138,7 +138,7 @@ const PageController = (response) => {
         openSettingsBtns.forEach((openSettingsBtn) => {
             openSettingsBtn.addEventListener('click', (e) => {
                 e.preventDefault();
-                contentPage.sendMessage({ type: MESSAGE_TYPES.OPEN_SETTINGS_TAB });
+                contentPage.sendMessage({ type: MessageType.OPEN_SETTINGS_TAB });
             });
         });
     };
@@ -200,7 +200,7 @@ const init = async () => {
 
     clearTimeout(timeoutId);
 
-    const response = await contentPage.sendMessage({ type: MESSAGE_TYPES.INITIALIZE_FRAME_SCRIPT });
+    const response = await contentPage.sendMessage({ type: MessageType.INITIALIZE_FRAME_SCRIPT });
     const controller = PageController(response);
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', () => {

@@ -43,7 +43,7 @@ import { prefs } from './prefs';
 import { allowlist } from './filter/allowlist';
 import { documentFilterService } from './filter/services/document-filter';
 import { antiBannerService } from './filter/antibanner';
-import { FILTERING_LOG, FULLSCREEN_USER_RULES_EDITOR, MESSAGE_TYPES } from '../common/constants';
+import { FILTERING_LOG, FULLSCREEN_USER_RULES_EDITOR, MessageType } from '../common/constants';
 import { getCookieRulesDataForContentScript } from './filter/services/cookie-service';
 import { log } from '../common/log';
 import { fullscreenUserRulesEditor } from './fullscreen-user-rules-editor';
@@ -96,10 +96,10 @@ const longLivedMessageHandler = (port) => {
 
     port.onMessage.addListener((message) => {
         const { type, data } = message;
-        if (type === MESSAGE_TYPES.ADD_LONG_LIVED_CONNECTION) {
+        if (type === MessageType.ADD_LONG_LIVED_CONNECTION) {
             const { events } = data;
             listenerId = listeners.addSpecifiedListener(events, async (...data) => {
-                const type = MESSAGE_TYPES.NOTIFY_LISTENERS;
+                const type = MessageType.NOTIFY_LISTENERS;
                 try {
                     port.postMessage({ type, data });
                 } catch (e) {
@@ -132,7 +132,7 @@ const createMessageHandler = () => {
             const sender = eventListeners[listenerId];
             if (sender) {
                 tabsApi.sendMessage(sender.tab.tabId, {
-                    type: MESSAGE_TYPES.NOTIFY_LISTENERS,
+                    type: MessageType.NOTIFY_LISTENERS,
                     data: args,
                 });
             }
@@ -230,36 +230,36 @@ const createMessageHandler = () => {
         const { data, type } = message;
 
         switch (type) {
-            case MESSAGE_TYPES.GET_OPTIONS_DATA: {
+            case MessageType.GET_OPTIONS_DATA: {
                 return processGetOptionsData();
             }
-            case MESSAGE_TYPES.UN_ALLOWLIST_FRAME: {
+            case MessageType.UN_ALLOWLIST_FRAME: {
                 const { frameInfo } = data;
                 userrules.unAllowlistFrame(frameInfo);
                 break;
             }
-            case MESSAGE_TYPES.CREATE_EVENT_LISTENER: {
+            case MessageType.CREATE_EVENT_LISTENER: {
                 const { events } = data;
                 return processAddEventListener(events, sender);
             }
-            case MESSAGE_TYPES.REMOVE_LISTENER: {
+            case MessageType.REMOVE_LISTENER: {
                 const { listenerId } = data;
                 listeners.removeListener(listenerId);
                 delete eventListeners[listenerId];
                 break;
             }
-            case MESSAGE_TYPES.INITIALIZE_FRAME_SCRIPT:
+            case MessageType.INITIALIZE_FRAME_SCRIPT:
                 return processInitializeFrameScriptRequest();
-            case MESSAGE_TYPES.CHANGE_USER_SETTING:
+            case MessageType.CHANGE_USER_SETTING:
                 settings.setProperty(message.key, message.value);
                 break;
-            case MESSAGE_TYPES.CHECK_REQUEST_FILTER_READY:
+            case MessageType.CHECK_REQUEST_FILTER_READY:
                 return { ready: filteringApi.isReady() };
-            case MESSAGE_TYPES.ADD_AND_ENABLE_FILTER: {
+            case MessageType.ADD_AND_ENABLE_FILTER: {
                 const { filterId } = data;
                 return application.addAndEnableFilters([filterId], { forceRemote: true });
             }
-            case MESSAGE_TYPES.DISABLE_ANTIBANNER_FILTER: {
+            case MessageType.DISABLE_ANTIBANNER_FILTER: {
                 const { filterId, remove } = data;
                 if (remove) {
                     application.uninstallFilters([filterId]);
@@ -268,22 +268,22 @@ const createMessageHandler = () => {
                 }
                 break;
             }
-            case MESSAGE_TYPES.REMOVE_ANTIBANNER_FILTER: {
+            case MessageType.REMOVE_ANTIBANNER_FILTER: {
                 const { filterId } = data;
                 application.removeFilter(filterId);
                 break;
             }
-            case MESSAGE_TYPES.ENABLE_FILTERS_GROUP: {
+            case MessageType.ENABLE_FILTERS_GROUP: {
                 const { groupId } = data;
                 await categories.enableFiltersGroup(groupId);
                 break;
             }
-            case MESSAGE_TYPES.DISABLE_FILTERS_GROUP: {
+            case MessageType.DISABLE_FILTERS_GROUP: {
                 const { groupId } = data;
                 categories.disableFiltersGroup(groupId);
                 break;
             }
-            case MESSAGE_TYPES.GET_ALLOWLIST_DOMAINS: {
+            case MessageType.GET_ALLOWLIST_DOMAINS: {
                 const allowlistDomains = allowlist.getAllowlistDomains();
                 const appVersion = backgroundPage.app.getVersion();
                 return {
@@ -291,7 +291,7 @@ const createMessageHandler = () => {
                     appVersion,
                 };
             }
-            case MESSAGE_TYPES.SAVE_ALLOWLIST_DOMAINS: {
+            case MessageType.SAVE_ALLOWLIST_DOMAINS: {
                 const { value } = data;
                 const domains = value.split(/[\r\n]+/)
                     .map(string => string.trim())
@@ -299,12 +299,12 @@ const createMessageHandler = () => {
                 allowlist.updateAllowlistDomains(domains);
                 break;
             }
-            case MESSAGE_TYPES.GET_USER_RULES: {
+            case MessageType.GET_USER_RULES: {
                 const content = await userrules.getUserRulesText();
                 const appVersion = backgroundPage.app.getVersion();
                 return { content, appVersion };
             }
-            case MESSAGE_TYPES.SAVE_USER_RULES: {
+            case MessageType.SAVE_USER_RULES: {
                 const { value } = data;
                 userrules.updateUserRulesText(value);
                 // We are waiting until request filter is updated
@@ -317,28 +317,28 @@ const createMessageHandler = () => {
                     });
                 });
             }
-            case MESSAGE_TYPES.ADD_USER_RULE: {
+            case MessageType.ADD_USER_RULE: {
                 const { ruleText } = data;
                 userrules.addRules([ruleText]);
                 break;
             }
-            case MESSAGE_TYPES.REMOVE_USER_RULE: {
+            case MessageType.REMOVE_USER_RULE: {
                 const { ruleText } = data;
                 userrules.removeRule(ruleText);
                 break;
             }
-            case MESSAGE_TYPES.CHECK_ANTIBANNER_FILTERS_UPDATE: {
+            case MessageType.CHECK_ANTIBANNER_FILTERS_UPDATE: {
                 const filters = await uiService.checkFiltersUpdates();
                 return filters;
             }
-            case MESSAGE_TYPES.LOAD_CUSTOM_FILTER_INFO:
+            case MessageType.LOAD_CUSTOM_FILTER_INFO:
                 try {
                     const { url, title } = data;
-                    return application.loadCustomFilterInfo(url, { title });
+                    return await application.loadCustomFilterInfo(url, { title });
                 } catch (e) {
                     return {};
                 }
-            case MESSAGE_TYPES.SUBSCRIBE_TO_CUSTOM_FILTER: {
+            case MessageType.SUBSCRIBE_TO_CUSTOM_FILTER: {
                 const { customUrl, name, trusted } = data.filter;
                 try {
                     const filter = await application.loadCustomFilter(customUrl, { title: name, trusted });
@@ -349,26 +349,26 @@ const createMessageHandler = () => {
                 }
                 break;
             }
-            case MESSAGE_TYPES.OPEN_THANKYOU_PAGE:
+            case MessageType.OPEN_THANKYOU_PAGE:
                 uiService.openThankYouPage();
                 break;
-            case MESSAGE_TYPES.OPEN_EXTENSION_STORE:
+            case MessageType.OPEN_EXTENSION_STORE:
                 uiService.openExtensionStore();
                 break;
-            case MESSAGE_TYPES.OPEN_FILTERING_LOG:
+            case MessageType.OPEN_FILTERING_LOG:
                 uiService.openFilteringLog(message.tabId);
                 break;
-            case MESSAGE_TYPES.OPEN_FULLSCREEN_USER_RULES:
+            case MessageType.OPEN_FULLSCREEN_USER_RULES:
                 uiService.openFullscreenUserRules();
                 break;
-            case MESSAGE_TYPES.GET_FILTERING_LOG_DATA: {
+            case MessageType.GET_FILTERING_LOG_DATA: {
                 return {
                     filtersMetadata: subscriptions.getFilters(),
                     settings: settings.getAllSettings(),
                     preserveLogEnabled: filteringLog.isPreserveLogEnabled(),
                 };
             }
-            case MESSAGE_TYPES.OPEN_SAFEBROWSING_TRUSTED: {
+            case MessageType.OPEN_SAFEBROWSING_TRUSTED: {
                 const { url } = data;
                 safebrowsing.addToSafebrowsingTrusted(url);
                 const tab = await tabsApi.getActive();
@@ -377,16 +377,16 @@ const createMessageHandler = () => {
                 }
                 break;
             }
-            case MESSAGE_TYPES.OPEN_TAB: {
+            case MessageType.OPEN_TAB: {
                 const { url, options } = data;
                 return uiService.openTab(url, options);
             }
-            case MESSAGE_TYPES.RESET_BLOCKED_ADS_COUNT:
+            case MessageType.RESET_BLOCKED_ADS_COUNT:
                 frames.resetBlockedAdsCount();
                 break;
-            case MESSAGE_TYPES.RESET_SETTINGS:
+            case MessageType.RESET_SETTINGS:
                 return settingsProvider.applyDefaultSettings();
-            case MESSAGE_TYPES.GET_SELECTORS_AND_SCRIPTS: {
+            case MessageType.GET_SELECTORS_AND_SCRIPTS: {
                 let urlForSelectors;
                 // https://github.com/AdguardTeam/AdguardBrowserExtension/issues/1498
                 // when document url for iframe is about:blank then we use tab url
@@ -397,7 +397,7 @@ const createMessageHandler = () => {
                 }
                 return webRequestService.processGetSelectorsAndScripts(sender.tab, urlForSelectors) || {};
             }
-            case MESSAGE_TYPES.GET_COOKIE_RULES: {
+            case MessageType.GET_COOKIE_RULES: {
                 if (!utils.url.isHttpOrWsRequest(message.documentUrl) && sender.frameId !== 0) {
                     return {};
                 }
@@ -406,7 +406,7 @@ const createMessageHandler = () => {
                     rulesData: getCookieRulesDataForContentScript(sender.tab, message.documentUrl, sender.tab.url),
                 };
             }
-            case MESSAGE_TYPES.SAVE_COOKIE_LOG_EVENT: {
+            case MessageType.SAVE_COOKIE_LOG_EVENT: {
                 filteringLog.addCookieEvent({
                     tabId: sender.tab.tabId,
                     cookieName: data.cookieName,
@@ -418,7 +418,7 @@ const createMessageHandler = () => {
                 });
                 break;
             }
-            case MESSAGE_TYPES.CHECK_PAGE_SCRIPT_WRAPPER_REQUEST: {
+            case MessageType.CHECK_PAGE_SCRIPT_WRAPPER_REQUEST: {
                 const block = webRequestService.checkPageScriptWrapperRequest(
                     sender.tab,
                     message.elementUrl,
@@ -430,7 +430,7 @@ const createMessageHandler = () => {
                     requestId: message.requestId,
                 };
             }
-            case MESSAGE_TYPES.PROCESS_SHOULD_COLLAPSE: {
+            case MessageType.PROCESS_SHOULD_COLLAPSE: {
                 const collapse = webRequestService.processShouldCollapse(
                     sender.tab,
                     message.elementUrl,
@@ -442,7 +442,7 @@ const createMessageHandler = () => {
                     requestId: message.requestId,
                 };
             }
-            case MESSAGE_TYPES.PROCESS_SHOULD_COLLAPSE_MANY: {
+            case MessageType.PROCESS_SHOULD_COLLAPSE_MANY: {
                 const requests = webRequestService.processShouldCollapseMany(
                     sender.tab,
                     message.documentUrl,
@@ -450,20 +450,20 @@ const createMessageHandler = () => {
                 );
                 return { requests };
             }
-            case MESSAGE_TYPES.ON_OPEN_FILTERING_LOG_PAGE:
+            case MessageType.ON_OPEN_FILTERING_LOG_PAGE:
                 filteringLog.onOpenFilteringLogPage();
                 break;
-            case MESSAGE_TYPES.ON_CLOSE_FILTERING_LOG_PAGE:
+            case MessageType.ON_CLOSE_FILTERING_LOG_PAGE:
                 filteringLog.onCloseFilteringLogPage();
                 break;
-            case MESSAGE_TYPES.CLEAR_EVENTS_BY_TAB_ID:
+            case MessageType.CLEAR_EVENTS_BY_TAB_ID:
                 filteringLog.clearEventsByTabId(data.tabId, data.ignorePreserveLog);
                 break;
-            case MESSAGE_TYPES.REFRESH_PAGE:
+            case MessageType.REFRESH_PAGE:
                 filteringLog.clearEventsByTabId(data.tabId);
                 await tabsApi.reload(data.tabId);
                 break;
-            case MESSAGE_TYPES.GET_TAB_FRAME_INFO_BY_ID: {
+            case MessageType.GET_TAB_FRAME_INFO_BY_ID: {
                 if (data.tabId) {
                     const frameInfo = frames.getFrameInfo({ tabId: data.tabId });
                     return { frameInfo };
@@ -477,39 +477,39 @@ const createMessageHandler = () => {
 
                 break;
             }
-            case MESSAGE_TYPES.GET_FILTERING_INFO_BY_TAB_ID: {
+            case MessageType.GET_FILTERING_INFO_BY_TAB_ID: {
                 const { tabId } = data;
                 return filteringLog.getFilteringInfoByTabId(tabId);
             }
-            case MESSAGE_TYPES.SYNCHRONIZE_OPEN_TABS: {
+            case MessageType.SYNCHRONIZE_OPEN_TABS: {
                 return filteringLog.synchronizeOpenTabs();
             }
-            case MESSAGE_TYPES.ADD_FILTERING_SUBSCRIPTION: {
+            case MessageType.ADD_FILTERING_SUBSCRIPTION: {
                 const { url, title } = message;
                 await uiService.openCustomFiltersModal(url, title);
                 break;
             }
             // Popup methods
-            case MESSAGE_TYPES.ADD_ALLOWLIST_DOMAIN_POPUP: {
+            case MessageType.ADD_ALLOWLIST_DOMAIN_POPUP: {
                 const tab = await tabsApi.getActive(data.tabId);
                 if (tab) {
                     uiService.allowlistTab(tab);
                 }
                 break;
             }
-            case MESSAGE_TYPES.REMOVE_ALLOWLIST_DOMAIN: {
+            case MessageType.REMOVE_ALLOWLIST_DOMAIN: {
                 const tab = await tabsApi.getActive(data.tabId);
                 if (tab) {
                     uiService.unAllowlistTab(tab);
                 }
                 break;
             }
-            case MESSAGE_TYPES.CHANGE_APPLICATION_FILTERING_DISABLED: {
+            case MessageType.CHANGE_APPLICATION_FILTERING_DISABLED: {
                 const { state } = data;
                 uiService.changeApplicationFilteringDisabled(state);
                 break;
             }
-            case MESSAGE_TYPES.OPEN_SITE_REPORT_TAB: {
+            case MessageType.OPEN_SITE_REPORT_TAB: {
                 if (data) {
                     const { url } = data;
                     uiService.openSiteReportTab(url);
@@ -518,7 +518,7 @@ const createMessageHandler = () => {
                 }
                 break;
             }
-            case MESSAGE_TYPES.OPEN_ABUSE_TAB:
+            case MessageType.OPEN_ABUSE_TAB:
                 if (data) {
                     const { url } = data;
                     uiService.openAbuseTab(url);
@@ -526,13 +526,13 @@ const createMessageHandler = () => {
                     uiService.openAbuseTab(message.url);
                 }
                 break;
-            case MESSAGE_TYPES.OPEN_SETTINGS_TAB:
+            case MessageType.OPEN_SETTINGS_TAB:
                 uiService.openSettingsTab();
                 break;
-            case MESSAGE_TYPES.OPEN_ASSISTANT:
+            case MessageType.OPEN_ASSISTANT:
                 uiService.openAssistant();
                 break;
-            case MESSAGE_TYPES.GET_TAB_INFO_FOR_POPUP: {
+            case MessageType.GET_TAB_INFO_FOR_POPUP: {
                 const tab = await tabsApi.getActive(data.tabId);
 
                 // There can't be data till localstorage is initialized
@@ -559,10 +559,10 @@ const createMessageHandler = () => {
                 }
                 break;
             }
-            case MESSAGE_TYPES.SET_NOTIFICATION_VIEWED:
+            case MessageType.SET_NOTIFICATION_VIEWED:
                 notifications.setNotificationViewed(message.withDelay);
                 break;
-            case MESSAGE_TYPES.GET_STATISTICS_DATA:
+            case MessageType.GET_STATISTICS_DATA:
                 // There can't be data till localstorage is initialized
                 if (!localStorage.isInitialized()) {
                     return {};
@@ -570,10 +570,10 @@ const createMessageHandler = () => {
                 return {
                     stats: pageStats.getStatisticsData(),
                 };
-            case MESSAGE_TYPES.SAVE_CSS_HITS_STATS:
+            case MessageType.SAVE_CSS_HITS_STATS:
                 processSaveCssHitStats(sender.tab, message.stats);
                 break;
-            case MESSAGE_TYPES.LOAD_SETTINGS_JSON: {
+            case MessageType.LOAD_SETTINGS_JSON: {
                 const appVersion = backgroundPage.app.getVersion();
                 const json = await settingsProvider.loadSettingsBackup();
                 return {
@@ -581,16 +581,16 @@ const createMessageHandler = () => {
                     appVersion,
                 };
             }
-            case MESSAGE_TYPES.APPLY_SETTINGS_JSON: {
+            case MessageType.APPLY_SETTINGS_JSON: {
                 const { json } = data;
                 return settingsProvider.applySettingsBackup(json);
             }
-            case MESSAGE_TYPES.ADD_URL_TO_TRUSTED: {
+            case MessageType.ADD_URL_TO_TRUSTED: {
                 const { url } = data;
                 await documentFilterService.addToTrusted(url);
                 break;
             }
-            case MESSAGE_TYPES.RESET_CUSTOM_RULES_FOR_PAGE: {
+            case MessageType.RESET_CUSTOM_RULES_FOR_PAGE: {
                 const { url, tabId } = data;
                 await userrules.removeRulesByUrl(url);
                 // wait until request filter is updated
@@ -606,26 +606,26 @@ const createMessageHandler = () => {
                 await tabsApi.reload(tabId, url);
                 break;
             }
-            case MESSAGE_TYPES.SET_PRESERVE_LOG_STATE: {
+            case MessageType.SET_PRESERVE_LOG_STATE: {
                 const { state } = data;
                 filteringLog.setPreserveLogState(state);
                 break;
             }
-            case MESSAGE_TYPES.GET_USER_RULES_EDITOR_DATA: {
+            case MessageType.GET_USER_RULES_EDITOR_DATA: {
                 return {
                     userRules: await userrules.getUserRulesText(),
                     settings: settings.getAllSettings(),
                 };
             }
-            case MESSAGE_TYPES.GET_EDITOR_STORAGE_CONTENT: {
+            case MessageType.GET_EDITOR_STORAGE_CONTENT: {
                 return editorStorage.getContent();
             }
-            case MESSAGE_TYPES.SET_EDITOR_STORAGE_CONTENT: {
+            case MessageType.SET_EDITOR_STORAGE_CONTENT: {
                 const { content } = data;
                 editorStorage.setContent(content);
                 break;
             }
-            case MESSAGE_TYPES.CONVERT_RULES_TEXT: {
+            case MessageType.CONVERT_RULES_TEXT: {
                 const { content } = data;
                 return TSUrlFilter.RuleConverter.convertRules(content);
             }

@@ -3,7 +3,7 @@
 import React, { useCallback, useState } from 'react';
 import { reactTranslator } from '../../../../common/translators/reactTranslator';
 
-import { MESSAGE_TYPES } from '../../../../common/constants';
+import { MessageType } from '../../../../common/constants';
 import { getParams } from '../../getParams';
 import { messenger } from '../../../services/messenger';
 
@@ -26,7 +26,7 @@ export const SafeBrowsing = () => {
 
     const handleProceed = useCallback((e) => {
         e.preventDefault();
-        messenger.sendMessage(MESSAGE_TYPES.OPEN_SAFEBROWSING_TRUSTED, { url });
+        messenger.sendMessage(MessageType.OPEN_SAFEBROWSING_TRUSTED, { url });
     }, [url]);
 
     return (

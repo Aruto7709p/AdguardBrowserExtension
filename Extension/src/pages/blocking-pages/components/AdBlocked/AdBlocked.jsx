@@ -3,7 +3,7 @@
 import React, { useCallback } from 'react';
 import { reactTranslator } from '../../../../common/translators/reactTranslator';
 
-import { MESSAGE_TYPES } from '../../../../common/constants';
+import { MessageType } from '../../../../common/constants';
 import { getParams } from '../../getParams';
 import { messenger } from '../../../services/messenger';
 
@@ -19,7 +19,7 @@ export const AdBlocked = () => {
 
     const handleProceed = useCallback((e) => {
         e.preventDefault();
-        messenger.sendMessage(MESSAGE_TYPES.ADD_URL_TO_TRUSTED, { url });
+        messenger.sendMessage(MessageType.ADD_URL_TO_TRUSTED, { url });
     }, [url]);
 
     return (

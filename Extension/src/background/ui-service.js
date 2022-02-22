@@ -32,7 +32,7 @@ import { userrules } from './filter/userrules';
 import { browserUtils } from './utils/browser-utils';
 import { log } from '../common/log';
 import { runtimeImpl } from '../common/common-script';
-import { MESSAGE_TYPES, ANTIBANNER_FILTERS_ID } from '../common/constants';
+import { MessageType, ANTIBANNER_FILTERS_ID } from '../common/constants';
 import { translator } from '../common/translators/translator';
 
 /**
@@ -911,7 +911,7 @@ export const uiService = (function () {
 
     const initAssistant = async (selectElement) => {
         const options = {
-            addRuleCallbackName: MESSAGE_TYPES.ADD_USER_RULE,
+            addRuleCallbackName: MessageType.ADD_USER_RULE,
             selectElement,
         };
 

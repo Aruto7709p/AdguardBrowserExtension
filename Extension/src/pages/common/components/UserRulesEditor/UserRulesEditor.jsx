@@ -15,7 +15,7 @@ import { reactTranslator } from '../../../../common/translators/reactTranslator'
 import { Popover } from '../ui/Popover';
 import { Icon } from '../ui/Icon';
 import { messenger } from '../../../services/messenger';
-import { MESSAGE_TYPES, NOTIFIER_TYPES } from '../../../../common/constants';
+import { MessageType, NOTIFIER_TYPES } from '../../../../common/constants';
 import { handleFileUpload } from '../../../helpers';
 import { log } from '../../../../common/log';
 import { ToggleWrapButton } from './ToggleWrapButton';
@@ -65,7 +65,7 @@ export const UserRulesEditor = observer(({ fullscreen, uiStore }) => {
 
             // initial export button state
             const { userRules } = await messenger.sendMessage(
-                MESSAGE_TYPES.GET_USER_RULES_EDITOR_DATA,
+                MessageType.GET_USER_RULES_EDITOR_DATA,
             );
             if (userRules.length > 0) {
                 store.setUserRulesExportAvailableState(true);
@@ -82,7 +82,7 @@ export const UserRulesEditor = observer(({ fullscreen, uiStore }) => {
      */
     const handleUserFilterUpdated = useCallback(async () => {
         const { userRules } = await messenger.sendMessage(
-            MESSAGE_TYPES.GET_USER_RULES_EDITOR_DATA,
+            MessageType.GET_USER_RULES_EDITOR_DATA,
         );
 
         if (!store.userRulesEditorContentChanged) {
@@ -278,7 +278,7 @@ export const UserRulesEditor = observer(({ fullscreen, uiStore }) => {
             await messenger.setEditorStorageContent(content);
         }
 
-        await messenger.sendMessage(MESSAGE_TYPES.OPEN_FULLSCREEN_USER_RULES);
+        await messenger.sendMessage(MessageType.OPEN_FULLSCREEN_USER_RULES);
     };
 
     const closeEditorFullscreen = async () => {

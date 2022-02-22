@@ -4,7 +4,7 @@ import { observer } from 'mobx-react';
 import { SettingsSection } from '../Settings/SettingsSection';
 import { reactTranslator } from '../../../../common/translators/reactTranslator';
 import { UserRulesEditor } from '../../../common/components/UserRulesEditor';
-import { MESSAGE_TYPES } from '../../../../common/constants';
+import { MessageType } from '../../../../common/constants';
 import { rootStore } from '../../stores/RootStore';
 import { messenger } from '../../../services/messenger';
 import { UserRulesSwitcher } from './UserRulesSwitcher';
@@ -16,7 +16,7 @@ const UserRules = observer(() => {
     const { settingsStore, uiStore } = useContext(rootStore);
 
     const handleGoToEditorClick = async () => {
-        await messenger.sendMessage(MESSAGE_TYPES.OPEN_FULLSCREEN_USER_RULES);
+        await messenger.sendMessage(MessageType.OPEN_FULLSCREEN_USER_RULES);
     };
 
     return (
