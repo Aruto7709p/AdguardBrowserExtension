@@ -39,7 +39,7 @@ export const genSampleApiConfig = (browserConfig) => {
             filename: '[name].js',
         },
         resolve: {
-            extensions: ['*', '.js', '.jsx'],
+            extensions: ['*', '.js', '.jsx', '.ts', '.tsx'],
         },
         module: {
             rules: [
@@ -60,7 +60,7 @@ export const genSampleApiConfig = (browserConfig) => {
                     }],
                 },
                 {
-                    test: /\.(js|jsx)$/,
+                    test: /\.(js|ts)x?$/,
                     exclude: /node_modules/,
                     use: [{
                         loader: 'babel-loader',
