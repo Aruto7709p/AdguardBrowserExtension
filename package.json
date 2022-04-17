@@ -99,7 +99,7 @@
     "js-beautify": "^1.14.0",
     "lodash": "^4.17.21",
     "lru_map": "^0.4.1",
-    "mobx": "^6.3.2",
+    "mobx": "^6.5.0",
     "mobx-react": "^7.2.0",
     "nanobar": "^0.4.2",
     "nanoid": "^3.2.0",
