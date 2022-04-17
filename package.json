@@ -116,6 +116,6 @@
     "stream-browserify": "^3.0.0",
     "url": "^0.11.0",
     "webextension-polyfill": "^0.8.0",
-    "xstate": "^4.23.1"
+    "xstate": "^4.30.6"
   }
 }
