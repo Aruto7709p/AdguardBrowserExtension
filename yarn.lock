@@ -10554,10 +10554,10 @@ xregexp@3.1.0:
   resolved "https://registry.npmjs.org/xregexp/-/xregexp-3.1.0.tgz"
   integrity sha1-FNhGHgvdOCJL/uUDmgiY/EL80zY=
 
-xstate@^4.23.1:
-  version "4.23.1"
-  resolved "https://registry.npmjs.org/xstate/-/xstate-4.23.1.tgz"
-  integrity sha512-8ZoCe8d6wDSPfkep+GBgi+fKAdMyXcaizoNf5FKceEhlso4+9n1TeK6oviaDsXZ3Z5O8xKkJOxXPNuD4cA9LCw==
+xstate@^4.30.6:
+  version "4.31.0"
+  resolved "https://registry.yarnpkg.com/xstate/-/xstate-4.31.0.tgz#039cf6f865dd9e104012eb76a14df757c988ec58"
+  integrity sha512-UK5m6OqUsTlPuKWkfRR5cR9/Yt7sysFyEg+PVIbEH9mwHSf9zuCvWO7rRvhBq7T+3pEXLKTEMfaqmLxl9Ob1pw==
 
 y18n@^5.0.5:
   version "5.0.8"
